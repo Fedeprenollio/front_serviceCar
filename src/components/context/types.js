@@ -1,0 +1,8 @@
+export const LOGIN = "LOGIN"
+export const POST_AUTO = "POST_AUTO"
+export const GET_AUTOS = "GET_AUTOS"
+export const DELETE_AUTO = "DELETE_AUTO"
+export const GET_SERVICE_GRAL = "GET_SERVICE_GRAL"
+export const POST_NEW_SERVICE_CAR = "POST_NEW_SERVICE_CAR"
+export const PUT_ASOCIAR_SERVICE_TO_CAR = "PUT_ASOCIAR_SERVICE_TO_CAR"
+export const GET_DETAIL_CAR = "GET_DETAIL_CAR"
