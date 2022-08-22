@@ -6,6 +6,8 @@ import { useFormik, Formik } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
 
+
+
 export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,7 +30,8 @@ console.log(select)
     servicesGral,
     autoDetail,
     servicesUser,
-    getServicesOneUser
+    getServicesOneUser,
+    putService
     
   } = useContext(GlobalContext);
   const oldService = servicesUser.find(ser => ser._id=== idServ)
@@ -45,7 +48,8 @@ console.log(select)
     // categoria: yup.string().required("El nombre es requerido"),
     nextServiceKm: yup.number().required("El nombre es requerido"),
     // nextServiceFecha: yup.string().required("El nombre es requerido"),
-  });
+  });     
+
 
   const formik = useFormik({
     initialStatus: {
@@ -71,6 +75,8 @@ console.log(select)
         token
       );
       await putAsociarServiceToAuto(idAuto, { service: newService._id }, token);
+      
+      await putService(oldService._id, {serviceStatus: true}, token)
       await getAutoDetail(idAuto, token);
     },
   });
@@ -257,6 +263,9 @@ console.log(select)
           </Formik>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Aceptar
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>

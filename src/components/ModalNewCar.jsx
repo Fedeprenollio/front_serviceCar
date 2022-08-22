@@ -3,6 +3,10 @@ import { useFormik, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
 import { GlobalContext } from "./context/Contex";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
+
 
 export const ModalNewCar = ({ idAuto, show, setShow }) => {
   const handleClose = () => setShow(false);
@@ -29,10 +33,34 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      console.log(values )
       const token = JSON.parse(window.localStorage.getItem("token"));
 
-      const newAuto = await postAuto(values, token);
-      await getAutos(token);
+      MySwal.fire({
+        title: '¿Deseas crear un nuevo auto?',
+        // text: "No prodras revertir la eliminación",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+      }).then( async(result) => {
+        if (result.isConfirmed) {
+  
+          setShow(false)
+          const newAuto = await postAuto(values, token);
+          await getAutos(token);
+  
+          MySwal.fire(
+            'Creación correcta!',
+              "",
+            'success'
+          )
+        }
+      })
+
+
+      
     },
   });
 

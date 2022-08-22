@@ -3,6 +3,13 @@ import { useFormik, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
 import { GlobalContext } from "./context/Contex";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
+
+
+
+
 
 export const ModalEditCar = ({ idAuto, show, setShow }) => {
   const handleClose = () => setShow(false);
@@ -31,9 +38,35 @@ export const ModalEditCar = ({ idAuto, show, setShow }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      await putAuto(idAuto, values, token);
-      await getAutos(token);
-      await getAutoDetail(idAuto, token);
+
+      MySwal.fire({
+        title: '¿Deseas editar a tu auto?',
+        // text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+      }).then( async(result) => {
+        if (result.isConfirmed) {
+  
+          await putAuto(idAuto, values, token);
+          await getAutos(token);
+          await getAutoDetail(idAuto, token);
+       setShow(false)
+  
+          MySwal.fire(
+            'Actualización correcta!',
+              "",
+            'success'
+          )
+        }
+      })
+
+
+
+
+      
     },
   });
 

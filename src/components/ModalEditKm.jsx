@@ -3,8 +3,11 @@ import Modal from 'react-bootstrap/Modal';
 import { GlobalContext } from './context/Contex';
 import { useFormik, Formik, ErrorMessage } from "formik";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-
 import * as yup from "yup";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 export function ModalEditKm({show, setShow, idAuto}) {
   const token = JSON.parse(window.localStorage.getItem("token"));
@@ -38,14 +41,32 @@ const formik = useFormik({
   },
   validationSchema: validationSchema,
   onSubmit: async (values) => {
-    console.log("values", values)
-     await putAuto(idAuto,values, token );
+
+    MySwal.fire({
+      title: '¿Deseas cambiar los kilometros?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si'
+    }).then( async(result) => {
+      if (result.isConfirmed) {
+
+        await putAuto(idAuto,values, token );
      await getAutos(token);
-    // await getAutoDetail(idAuto, token);
+     setShow(false)
+
+        MySwal.fire(
+          'Actualización correcta!',
+            "",
+          'success'
+        )
+      }
+    })
   },
 });
 formik.initialValues.kilometraje= autoDetail.kilometraje
-console.log("soy el modal",idAuto)
   return (
     <>
       <Button variant="primary" onClick={handleShow}>

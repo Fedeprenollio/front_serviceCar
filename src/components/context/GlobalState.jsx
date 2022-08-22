@@ -5,7 +5,7 @@ import { GlobalContext, initialState } from './Contex';
 import axios from 'axios';
 import appReducer from './AppReducer';
 
-import { DELETE_AUTO, DELETE_SERVICE, GET_AUTOS, GET_DETAIL_CAR, GET_SERVICES_ONE_USER, GET_SERVICE_GRAL, LOGIN, POST_AUTO, POST_NEW_SERVICE_CAR, PUT_ASOCIAR_SERVICE_TO_CAR, PUT_AUTO, PUT_SERVICE_CAR, SINGUP, VERIFY_TOKEN } from './types';
+import { DELETE_AUTO, DELETE_SERVICE, FILTER_STATUS_SERVICE, GET_AUTOS, GET_DETAIL_CAR, GET_SERVICES_ONE_USER, GET_SERVICE_GRAL, LOGIN, POST_AUTO, POST_NEW_SERVICE_CAR, PUT_ASOCIAR_SERVICE_TO_CAR, PUT_AUTO, PUT_SERVICE_CAR, SINGUP, VERIFY_TOKEN } from './types';
 
 export const GlobalProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(appReducer, initialState);
@@ -232,6 +232,29 @@ const deleteService = async (idService,token) => {
 	}
 };
 
+const filterStatusService = async (status,token) => {
+	console.log("idser",idService)
+	const config = {
+		headers: { token:  token },
+	  };
+	try {
+		const res = await axios.get(`http://localhost:3001/service/status?status=${status}`, config);
+		const data = res.data;
+		
+		dispatch({
+			type: FILTER_STATUS_SERVICE,
+			payload: data,
+		});
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+
+
+
+//------------------------
 const getAutoDetail = async (idAuto, token) => {
 	const config = {
 		headers: { token:  token },
@@ -294,7 +317,9 @@ const getServicesOneUser = async token => {
 				autoDetail: state.autoDetail,
 				getServicesOneUser,
 				servicesUser: state.servicesUser,
-				putService
+				putService,
+				filterStatusService,
+				servicesStatus: state.servicesStatus
 
 				
 				

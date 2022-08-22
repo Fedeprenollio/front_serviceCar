@@ -5,9 +5,12 @@ import { SignupLoginGoogle } from "./SignupLoginGoogle";
 import { useFormik, Formik } from "formik";
 import * as yup from "yup";
 import { Button, Form, Container } from "react-bootstrap";
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+
 
 export const Login = () => {
   const { postLogin } = useContext(GlobalContext);
+  const [showPassword, setShowPassword] = useState(false);
 
 
 
@@ -28,13 +31,23 @@ export const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const res = await postLogin(datos);
-    if (res !== undefined) {
-      window.localStorage.setItem("token", JSON.stringify(res.token));
-      const ls = JSON.parse(localStorage.getItem("token"));
-    }
+      if (res !== undefined) {
+        window.localStorage.setItem("token", JSON.stringify(res.token));
+        const ls = JSON.parse(localStorage.getItem("token"));
+      }
     },
   });
 
+  const clickShowPassword = () => {
+    let tipo = document.getElementById('password');
+    if (tipo.type == 'password') {
+      tipo.type = 'text';
+      setShowPassword(true);
+    } else {
+      tipo.type = 'password';
+      setShowPassword(false);
+    }
+  };
 
 
 
@@ -50,7 +63,7 @@ export const Login = () => {
       <Formik>
         {() => (
           <Form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-            <Form.Group className="mb-3" controlId="username">
+            <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario</Form.Label>
               <Form.Control
                 id="username"
@@ -70,9 +83,11 @@ export const Login = () => {
               </Form.Text> */}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Tu contraseña</Form.Label>
-
+            <Form.Group className="mb-3" >
+              <Form.Label>Tu contraseña</Form.Label>
+              <span type='button' onClick={clickShowPassword}>
+              {showPassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+            </span>
               <Form.Control
                 id="password"
                 name="password"
@@ -89,10 +104,10 @@ export const Login = () => {
                 Elije tu contraseña de usuario
               </Form.Text> */}
             </Form.Group>
+          
           </Form>
         )}
       </Formik>
-
       <Container >
         <Button variant="primary" type="submit">
           Ingresar

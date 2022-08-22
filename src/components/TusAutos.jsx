@@ -6,6 +6,9 @@ import NavBar from "./NavBar";
 import { ModalEditKm } from "./ModalEditKm";
 import { ModalEditCar } from "./ModalEditCar";
 import { ModalNewCar } from "./ModalNewCar";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
 
 export const TusAutos = () => {
   const { autos, getAutos, deleteAuto } = useContext(GlobalContext);
@@ -26,8 +29,32 @@ export const TusAutos = () => {
   }, []);
 
   const handleClickDelete = async (e) => {
+    MySwal.fire({
+      title: '¿Deseas eliminar a tu auto?',
+      text: "No prodras revertir la eliminación",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si'
+    }).then( async(result) => {
+      if (result.isConfirmed) {
+
+     
     await deleteAuto(e.target.value);
     await getAutos(token);
+
+        MySwal.fire(
+          'Eliminacón correcta!',
+            "",
+          'success'
+        )
+      }
+    })
+
+
+
+
   };
 
   const handleGoService = (e) => {
@@ -65,11 +92,14 @@ export const TusAutos = () => {
                 </Card.Body>
                 <ListGroup className="list-group-flush">
                   <ListGroup.Item>Modelo: {auto.model}</ListGroup.Item>
+                  <button style={{border:"none", textAlign:"start"}} type="button">
+
                   <ListGroup.Item
                     onClick={() => handleClickEditKmModal(auto._id)}
-                  >
+                    >
                     Kilometros: {auto.kilometraje}
                   </ListGroup.Item>
+                    </button>
                   <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
                 </ListGroup>
                 <Card.Body className="d-grid gap-2">

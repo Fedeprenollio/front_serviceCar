@@ -35,7 +35,7 @@ export const NuevoService = ({ idAuto, idService }) => {
       .required("La descripción es requerida"),
     servicio: yup.string().required("El nombre es requerido"),
     // categoria: yup.string().required("El nombre es requerido"),
-    nextServiceKm: yup.number().required("El nombre es requerido"),
+    // nextServiceKm: yup.number().required("El nombre es requerido"),
     // nextServiceFecha: yup.string().required("El nombre es requerido"),
   });
 
@@ -202,7 +202,7 @@ export const NuevoService = ({ idAuto, idService }) => {
             </Form.Group>
 
             {/* PROXIMO SERICE EN KM */}
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label>Proximo service en kilometros</Form.Label>
 
               <Form.Control
@@ -219,7 +219,7 @@ export const NuevoService = ({ idAuto, idService }) => {
                   {formik.errors?.nextServiceKm}
                 </Alert>
               )}
-            </Form.Group>
+            </Form.Group> */}
 
             <Datepicker
               dateFormat="dd/MM/yyyy"
@@ -230,7 +230,7 @@ export const NuevoService = ({ idAuto, idService }) => {
             <label>Fecha del proximo service</label>
 
             <Button variant="primary" type="submit">
-              Crar
+              Crear
             </Button>
           </Form>
         )}

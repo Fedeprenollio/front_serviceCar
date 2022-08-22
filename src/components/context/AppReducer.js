@@ -1,6 +1,7 @@
 import {
   DELETE_AUTO,
   DELETE_SERVICE,
+  FILTER_STATUS_SERVICE,
   GET_AUTOS,
   GET_DETAIL_CAR,
   GET_SERVICES_ONE_USER,
@@ -60,6 +61,11 @@ export default function appReducer(state, action) {
       return {
         ...state,
         servicesUser: action.payload,
+      };
+    case FILTER_STATUS_SERVICE:
+      return {
+        ...state,
+        servicesStatus: action.payload,
       };
     case PUT_SERVICE_CAR:
       return {

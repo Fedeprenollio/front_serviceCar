@@ -10,7 +10,6 @@ export const Panel = () => {
   let navigate = useNavigate();
   const { userId, verifyToken } = useContext(GlobalContext);
   const [crear, setCrear] = useState(false)
-  console.log("userID", userId);
 
   useEffect(() => {
     const token = JSON.parse(window.localStorage.getItem("token"));

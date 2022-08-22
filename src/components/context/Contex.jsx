@@ -6,6 +6,7 @@ export const initialState = {
 	userId:null,
 	autos:[],
 	serviceCar:[],
+	servicesStatus:[],
 	autoDetail:[],
 	servicesUser:[]
 };

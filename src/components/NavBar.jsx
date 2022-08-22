@@ -2,12 +2,39 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 function NavBar() {
+  const navigate = useNavigate()
+  const handleLogout = () => {
 
-    const handleLogout=()=>{
+    MySwal.fire({
+      title: '¿Deseas cerrar sesión?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
         window.localStorage.removeItem("token")
-    }
+        navigate("/login")
+
+        MySwal.fire(
+          'Logout correcto!',
+          'Hasta pronto!',
+          'success'
+        )
+      }
+    })
+
+  }
 
   return (
     <Navbar bg="light" expand="lg">

@@ -7,9 +7,7 @@ export const Home = () => {
   return (
     <div>
         <Login/>
-        <Signup/>
-        <Panel/>
-
+      
     </div>
   )
 }
