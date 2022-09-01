@@ -168,7 +168,7 @@ export const ServicesOneCarTable = ({ idAuto }) => {
   };
 
   return (
-    <Container className=" d-grid gap-2 mt-1 mb-1 ">
+    <Container className=" d-grid gap-2 mt-1 mb-1 container-fluid ">
       <Container className=" d-grid gap-1 mt-1 mb-1 border rounded-2 container-fluid">
         <Row>
           <Col>

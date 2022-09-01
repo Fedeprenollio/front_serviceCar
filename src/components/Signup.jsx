@@ -110,7 +110,7 @@ const navigate = useNavigate()
               <Form.Control
                 id="password"
                 name="password"
-                // type='password'
+                type='password'
                 placeholder="Contraseña"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -131,7 +131,7 @@ const navigate = useNavigate()
               <Form.Control
                 id="repitPassword"
                 name="repitPassword"
-                // type='password'
+                type='password'
                 placeholder="Contraseña"
                 value={formik.values.repitPassword}
                 onChange={formik.handleChange}
