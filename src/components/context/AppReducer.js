@@ -14,6 +14,7 @@ import {
   PUT_SERVICE_CAR,
   SINGUP,
   VERIFY_TOKEN,
+  CLEAR_DETAIL
 } from "./types";
 
 export default function appReducer(state, action) {
@@ -47,7 +48,15 @@ export default function appReducer(state, action) {
         ...state,
         autos: action.payload,
       };
+
+    case CLEAR_DETAIL:
+      console.log("DETAILLLLLL")
+      return {
+        ...state,
+        autos: [],
+      };
     case DELETE_AUTO:
+    
       return {
         ...state,
       };
@@ -70,7 +79,6 @@ export default function appReducer(state, action) {
     case PUT_SERVICE_CAR:
       return {
         ...state,
-       
       };
     case DELETE_SERVICE:
       return {

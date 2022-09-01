@@ -30,6 +30,7 @@ export const NuevoService = ({ idAuto, idService }) => {
     //email: yup.string().email().required('Email is required'),//
     // fecha: yup.string().required("El nombre es requerido"),
     lugar: yup.string().required("El nombre es requerido"),
+    description: yup.string(),
     currentKm: yup
       .number("Ingrese la descripción")
       .required("La descripción es requerida"),
@@ -46,6 +47,7 @@ export const NuevoService = ({ idAuto, idService }) => {
     initialValues: {
       // fecha: "",
       lugar: "",
+      description:"",
       currentKm: "",
       servicio: "",
       nextServiceKm: "",
@@ -148,6 +150,27 @@ export const NuevoService = ({ idAuto, idService }) => {
               {formik.touched.lugar && formik.errors.lugar && (
                 <Alert key={"danger"} variant={"danger"}>
                   {formik.errors?.lugar}
+                </Alert>
+              )}
+              {/* <Form.Text className="text-muted">
+                Elije tu nombre de usuario
+              </Form.Text> */}
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Descripción</Form.Label>
+              <Form.Control
+                id="description"
+                name="description"
+                type="text"
+                placeholder="Notas del service"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+
+              {formik.touched.description && formik.errors.description && (
+                <Alert key={"danger"} variant={"danger"}>
+                  {formik.errors?.description}
                 </Alert>
               )}
               {/* <Form.Text className="text-muted">

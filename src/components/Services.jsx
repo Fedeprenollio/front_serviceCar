@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { GlobalContext } from "./context/Contex";
 import { NuevoService } from "./NuevoService";
 import { ServicesOneCar } from "./ServicesOneCar";
-import  'bootstrap/dist/css/bootstrap.min.css'
 
 import { Container } from "react-bootstrap";
 import NavBar from "./NavBar";
@@ -21,7 +20,7 @@ export const Services = () => {
   return (
     <Container>
         <NavBar/>
-      <h2>Services generales:</h2>
+      {/* <h2>Services generales:</h2>
       {servicesGral &&
         servicesGral.map((serv) => {
           return (
@@ -37,7 +36,7 @@ export const Services = () => {
               </button>
             </div>
           );
-        })}
+        })} */}
 
       {/* <NuevoService idService={idService} idAuto={idAuto} /> */}
       {/* <ServicesOneCar idAuto={idAuto} /> */}

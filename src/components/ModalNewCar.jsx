@@ -3,22 +3,20 @@ import { useFormik, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
 import { GlobalContext } from "./context/Contex";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-const MySwal = withReactContent(Swal)
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 export const ModalNewCar = ({ idAuto, show, setShow }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const token = JSON.parse(window.localStorage.getItem("token"));
-  const { postAuto,getAutos  } =
-    useContext(GlobalContext);
- 
+  const { postAuto, getAutos } = useContext(GlobalContext);
 
   const validationSchema = yup.object({
     vehiculo: yup.string().required("El nombre es requerido"),
+    notes: yup.string().required("El nombre es requerido"),
     model: yup
       .string("Ingrese la descripción")
       .required("La descripción es requerida"),
@@ -30,43 +28,35 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
       vehiculo: "",
       model: "",
       kilometraje: "",
+      notes:""
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values )
       const token = JSON.parse(window.localStorage.getItem("token"));
 
       MySwal.fire({
-        title: '¿Deseas crear un nuevo auto?',
+        title: "¿Deseas crear un nuevo auto?",
         // text: "No prodras revertir la eliminación",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si'
-      }).then( async(result) => {
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+      }).then(async (result) => {
         if (result.isConfirmed) {
-  
-          setShow(false)
+          setShow(false);
           const newAuto = await postAuto(values, token);
           await getAutos(token);
-  
-          MySwal.fire(
-            'Creación correcta!',
-              "",
-            'success'
-          )
+
+          MySwal.fire("Creación correcta!", "", "success");
         }
-      })
-
-
-      
+      });
     },
   });
 
   return (
     <Container className="mt-4">
-        <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow}>
         Launch demo modal
       </Button>
 
@@ -137,6 +127,25 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
                   {formik.touched.kilometraje && formik.errors.kilometraje && (
                     <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.kilometraje}
+                    </Alert>
+                  )}
+                </Form.Group>
+
+                {/* -----------------NOTES */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Notas</Form.Label>
+                  <Form.Control
+                    id="notes"
+                    name="notes"
+                    type="text"
+                    placeholder="Notas sobre tu auto"
+                    value={formik.values.notes}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.notes && formik.errors.notes && (
+                    <Alert key={"danger"} variant={"danger"}>
+                      {formik.errors?.notes}
                     </Alert>
                   )}
                 </Form.Group>

@@ -5,10 +5,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useFormik, Formik } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 
 
-export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
+export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -17,7 +21,6 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
     getAutoDetail(idAuto, token);
     getServicesOneUser(token)
     setSelect(oldService?.categoria)
-    getAutos(token)
   }, [idAuto]);
 
   const [select, setSelect] = useState({
@@ -32,17 +35,15 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
     servicesUser,
     getServicesOneUser,
     putService,
-    getAutos,
-    autos
+    getAutos
     
   } = useContext(GlobalContext);
   const oldService = servicesUser.find(ser => ser._id=== idServ)
-  
+
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
     // fecha: yup.string().required("El nombre es requerido"),
     lugar: yup.string().required("El nombre es requerido"),
-    description: yup.string(),
     currentKm: yup
       .number("Ingrese la descripción")
       .required("La descripción es requerida"),
@@ -54,13 +55,12 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
 
 
   const formik = useFormik({
-    initialStatus: {
-      currentKm: autoDetail?.vehiculo,
-    },
+    // initialStatus: {
+    //   currentKm: autoDetail?.vehiculo,
+    // },
     initialValues: {
       // fecha: "",
       lugar: "",
-      description:"",
       currentKm: "",
       servicio: "",
       nextServiceKm: "",
@@ -68,25 +68,39 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const newService = await postNewService(
-        {
-          ...values,
-          categoria: select,
-          create_at: startDate,
-          nextServiceFecha: startDateNext,
-        },
-        token
-      );
-      await putAsociarServiceToAuto(idAuto, { service: newService._id }, token);
+        MySwal.fire({
+            title: '¿Deseas editar?',
+            // text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+          }).then( async(result) => {
+            if (result.isConfirmed) {
       
-      await putService(oldService._id, {serviceStatus: true}, token)
-      await getAutoDetail(idAuto, token);
-      await getAutos( token);
-      console.log("renovando")
+                await putService(idServ, values, token)
+                await getAutos( token);
+           setShow(false)
+      
+              MySwal.fire(
+                'Actualización correcta!',
+                  "",
+                'success'
+              )
+            }
+          })
+
+      
     },
   });
+
+
   formik.initialValues.currentKm = autoDetail.kilometraje;
   formik.initialValues.servicio = oldService?.servicio;
+  formik.initialValues.lugar = oldService?.lugar;
+  formik.initialValues.currentKm = oldService?.currentKm;
+  formik.initialValues.nextServiceKm = oldService?.nextServiceKm;
   // select.categoria = oldService?.categoria
 
   const handleSelect = (e) => {
@@ -109,21 +123,19 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
 
   const [startDate, setStartDate] = useState(new Date());
   const [startDateNext, setStartDateNext] = useState(new Date());
-
-  
  
   return (
     <Container className="mt-4">
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregando nuevo service para renovar uno</Modal.Title>
+          <Modal.Title>Editando el service</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container className="">
-            <h2>
+            {/* <h2>
               Nuevo service: {autoDetail?.vehiculo}, actualmete{" "}
               {autoDetail.kilometraje} km{" "}
-            </h2>
+            </h2> */}
             <select onChange={handleSelect} name="" id="">
               <option  disabled>
                 Selecciona una categoría
@@ -148,14 +160,7 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
             />
             <label>Fecha del service</label>
 
-            {/* <select onChange={(date) => setStartDateNext(date)} name="" id=""> */}
-            {/* <select onChange={(e)=> console.log(e.target.value)} name="" id="">
-            <option value="1">1 año</option>
-            <option value="2">2 año</option>
-            <option value="">3 año</option>
-            <option value="">4 año</option>
-            <option value="">5 año</option>
-          </select> */}
+           
           </Container>
 
           <Formik>
@@ -176,30 +181,9 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
                   />
 
                   {formik.touched.lugar && formik.errors.lugar && (
-                    <div style={{color:"red"}}>
+                    <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.lugar}
-                    </div>
-                  )}
-                  {/* <Form.Text className="text-muted">
-                Elije tu nombre de usuario
-              </Form.Text> */}
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Descripción</Form.Label>
-                  <Form.Control
-                    id="description"
-                    name="description"
-                    type="text"
-                    placeholder="Lugar del sevice"
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-
-                  {formik.touched.description && formik.errors.description && (
-                    <div style={{color:"red"}}>
-                      {formik.errors?.description}
-                    </div>
+                    </Alert>
                   )}
                   {/* <Form.Text className="text-muted">
                 Elije tu nombre de usuario
@@ -212,16 +196,16 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
                   <Form.Control
                     id="currentKm"
                     name="currentKm"
-                    type="text"
+                    type="number"
                     placeholder="Kilometros actuales"
                     value={formik.values.currentKm}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.currentKm && formik.errors.currentKm && (
-                    <div style={{color:"red"}}>
+                    <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.currentKm}
-                    </div>
+                    </Alert>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
@@ -243,13 +227,13 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.servicio && formik.errors.servicio && (
-                    <div style={{color:"red"}}>
+                    <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.servicio}
-                    </div>
+                    </Alert>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
-                    Elije tu nombre de usuario
+                    Puedes resumir el service
                   </Form.Text>
                 </Form.Group>
 
@@ -267,9 +251,9 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.nextServiceKm && formik.errors.nextServiceKm && (
-                    <div style={{color:"red"}}>
+                    <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.nextServiceKm}
-                    </div>
+                    </Alert>
                   )}
                 </Form.Group>
 
@@ -282,7 +266,7 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
                 <label>Fecha del proximo service</label>
                 <div className="d-grid gap-2 mt-2 mb-2">
                 <Button  variant="primary" type="submit">
-                  Renovar
+                  Editar
                 </Button>
 
                 </div>

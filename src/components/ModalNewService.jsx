@@ -4,7 +4,7 @@ import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFormik, Formik } from "formik";
 import * as yup from "yup";
-import { Container, Form, Button, Alert, Modal } from "react-bootstrap";
+import { Container, Form, Button,  Modal } from "react-bootstrap";
 
 export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
   const handleClose = () => setShow(false);
@@ -15,9 +15,7 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
     getAutoDetail(idAuto, token);
   }, [idAuto]);
 
-  const [select, setSelect] = useState({
-    categoria: "",
-  });
+  const [select, setSelect] = useState("Otro");
 
   const {
     postNewService,
@@ -33,8 +31,9 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
     //email: yup.string().email().required('Email is required'),//
     // fecha: yup.string().required("El nombre es requerido"),
     lugar: yup.string().required("El nombre es requerido"),
+    description: yup.string(),
     currentKm: yup
-      .number("Ingrese la descripción")
+      .number("Ingrese los kilometros actuales")
       .required("La descripción es requerida"),
     servicio: yup.string().required("El nombre es requerido"),
     // categoria: yup.string().required("El nombre es requerido"),
@@ -49,6 +48,7 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
     initialValues: {
       // fecha: "",
       lugar: "",
+      description: "",
       currentKm: "",
       servicio: "",
       nextServiceKm: "",
@@ -56,16 +56,18 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      console.log("values", values)
       const newService = await postNewService(
         {
           ...values,
-          categoria: select,
+          categoria: select ,
           create_at: startDate,
           nextServiceFecha: startDateNext,
         },
         token
       );
       await putAsociarServiceToAuto(idAuto, { service: newService._id }, token);
+      setShow(false)
       await getAutoDetail(idAuto, token);
     },
   });
@@ -91,8 +93,7 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
 
   const [startDate, setStartDate] = useState(new Date());
   const [startDateNext, setStartDateNext] = useState(new Date());
-  console.log("fecha", startDate);
-  console.log("siguiente service", startDateNext);
+  
   return (
     <Container className="mt-4">
       <Modal show={show} onHide={handleClose}>
@@ -101,17 +102,17 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
         </Modal.Header>
         <Modal.Body>
           <Container className="">
-            <h2>
-              Nuevo service: {autoDetail?.vehiculo}, actualmete{" "}
+            <h3>
+             Nuevo service:  <b>{autoDetail?.vehiculo}</b>, actualmete{" "}
               {autoDetail.kilometraje} km{" "}
-            </h2>
+            </h3>
             <select onChange={handleSelect} name="" id="">
               <option selected disabled>
                 Selecciona una categoría
               </option>
-              {categorias.map((c) => {
+              {categorias.map((c,i) => {
                 return (
-                  <option key={c} value={c}>
+                  <option key={i} value={c}>
                     {c}
                   </option>
                 );
@@ -154,9 +155,9 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
                   />
 
                   {formik.touched.lugar && formik.errors.lugar && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.lugar}
-                    </Alert>
+                    </div>
                   )}
                   {/* <Form.Text className="text-muted">
                 Elije tu nombre de usuario
@@ -176,9 +177,9 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.currentKm && formik.errors.currentKm && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.currentKm}
-                    </Alert>
+                    </div>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
@@ -200,13 +201,33 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.servicio && formik.errors.servicio && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.servicio}
-                    </Alert>
+                    </div>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
-                    Elije tu nombre de usuario
+                    Nombre del service que le hicieron
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Descripción</Form.Label>
+                  <Form.Control
+                    id="description"
+                    name="description"
+                    type="text"
+                    placeholder="Nuevo sevice"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.description && formik.errors.description && (
+                    <div style={{color:"red"}}>
+                      {formik.errors?.description}
+                    </div>
+                  )}
+                  <Form.Text className="text-muted">
+                    Puedes informar marca y tipo de aceite, liquido de frno, marca de pastillas de frenos, etc
                   </Form.Text>
                 </Form.Group>
 
@@ -224,9 +245,9 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.nextServiceKm && formik.errors.nextServiceKm && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.nextServiceKm}
-                    </Alert>
+                    </div>
                   )}
                 </Form.Group>
 
@@ -238,10 +259,9 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
                 />
                 <label>Fecha del proximo service</label>
                 <div className="d-grid gap-2 mt-2 mb-2">
-                <Button  variant="primary" type="submit">
-                  Crear
-                </Button>
-
+                  <Button variant="primary" type="submit">
+                    Crear
+                  </Button>
                 </div>
               </Form>
             )}
@@ -249,7 +269,7 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancelar
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>

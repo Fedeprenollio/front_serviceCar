@@ -13,7 +13,8 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 export const Signup = () => {
-  const { postSingup } = useContext(GlobalContext);
+  const { postSingup ,verifyToken, user,postLogin} = useContext(GlobalContext);
+
 const navigate = useNavigate()
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
@@ -21,7 +22,7 @@ const navigate = useNavigate()
     password: yup
       .string("Ingrese la descripción")
       // .min(8, 'Password should be of minimum 8 characters length')
-      .required("La descripción es requerida"),
+      .required("La contraseña es requerida"),
     repitPassword: yup
       .string("Ingrese la descripción")
       // .min(8, 'Password should be of minimum 8 characters length')
@@ -47,7 +48,14 @@ const navigate = useNavigate()
               showConfirmButton: false,
               timer: 1500
             })
-            navigate("/panel")
+
+            const res = await postLogin(values);
+            if (res !== undefined) {
+              window.localStorage.setItem("token", JSON.stringify(res.token));
+              const token = JSON.parse(window.localStorage.getItem("token"));
+              const user = await verifyToken(token);
+              navigate("/panel");
+            }
           } else if(res.error){
            
               MySwal.fire({
@@ -89,7 +97,7 @@ const navigate = useNavigate()
                 onBlur={formik.handleBlur}
               />
               {formik.touched.username && formik.errors.username && (
-                <div>{formik.errors?.username}</div>
+                <div style={{color:"red"}}>{formik.errors?.username}</div>
               )}
               {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
               <Form.Text className="text-muted">
@@ -99,7 +107,6 @@ const navigate = useNavigate()
 
             <Form.Group className="mb-3" >
               <Form.Label>Tu contraseña</Form.Label>
-
               <Form.Control
                 id="password"
                 name="password"
@@ -110,7 +117,7 @@ const navigate = useNavigate()
                 onBlur={formik.handleBlur}
               />
               {formik.touched.password && formik.errors.password && (
-                <div className="error">{formik.errors?.password}</div>
+                <div style={{color:"red"}} className="error">{formik.errors?.password}</div>
               )}
               <Form.Text className="text-muted">
                 Elije tu contraseña de usuario
@@ -131,21 +138,24 @@ const navigate = useNavigate()
                 onBlur={formik.handleBlur}
               />
               {formik.touched.repitPassword && formik.errors.repitPassword && (
-                <div className="error">{formik.errors?.repitPassword}</div>
+                <div style={{color:"red"}} className="error">{formik.errors?.repitPassword}</div>
               )}
               <Form.Text className="text-muted">
                 Repite tu contraseña
               </Form.Text>
             </Form.Group>
+            <Container className="d-grid place-item-center gap-2">
+
             <Button variant="primary" type="submit">
               Crear
             </Button>
+            <SignupLoginGoogle />
+
+            </Container>
           </Form>
         )}
       </Formik>
-      <Container>
-        <SignupLoginGoogle />
-      </Container>
+    
     </Container>
   );
 };

@@ -24,6 +24,7 @@ export const ModalEditCar = ({ idAuto, show, setShow }) => {
 
   const validationSchema = yup.object({
     vehiculo: yup.string().required("El nombre es requerido"),
+    notes: yup.string().required("El nombre es requerido"),
     model: yup
       .string("Ingrese la descripción")
       .required("La descripción es requerida"),
@@ -35,6 +36,7 @@ export const ModalEditCar = ({ idAuto, show, setShow }) => {
       vehiculo: autoDetail.vehiculo || "",
       model: autoDetail.model || "",
       kilometraje: autoDetail.kilometraje || "",
+      notes:  autoDetail.notes || ""
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -73,6 +75,7 @@ export const ModalEditCar = ({ idAuto, show, setShow }) => {
   formik.initialValues.vehiculo = autoDetail.vehiculo;
   formik.initialValues.model = autoDetail.model;
   formik.initialValues.kilometraje = autoDetail.kilometraje;
+  formik.initialValues.notes = autoDetail.notes;
   return (
     <Container className="mt-4">
       <Modal show={show} onHide={handleClose}>
@@ -142,6 +145,24 @@ export const ModalEditCar = ({ idAuto, show, setShow }) => {
                   {formik.touched.kilometraje && formik.errors.kilometraje && (
                     <Alert key={"danger"} variant={"danger"}>
                       {formik.errors?.kilometraje}
+                    </Alert>
+                  )}
+                </Form.Group>
+                {/* -----------------NOTES */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Notas</Form.Label>
+                  <Form.Control
+                    id="notes"
+                    name="notes"
+                    type="text"
+                    placeholder="Notas sobre tu auto"
+                    value={formik.values.notes}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.notes && formik.errors.notes && (
+                    <Alert key={"danger"} variant={"danger"}>
+                      {formik.errors?.notes}
                     </Alert>
                   )}
                 </Form.Group>

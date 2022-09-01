@@ -1,18 +1,17 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "./context/Contex";
 import NavBar from "./NavBar";
 import { SignupLoginGoogle } from "./SignupLoginGoogle";
 import { useFormik, Formik } from "formik";
 import * as yup from "yup";
 import { Button, Form, Container } from "react-bootstrap";
-import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
-
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 export const Login = () => {
-  const { postLogin } = useContext(GlobalContext);
+  const { postLogin, verifyToken, user } = useContext(GlobalContext);
   const [showPassword, setShowPassword] = useState(false);
-
-
+  const navigate = useNavigate();
 
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
@@ -30,27 +29,26 @@ export const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const res = await postLogin(datos);
+      const res = await postLogin(values);
       if (res !== undefined) {
         window.localStorage.setItem("token", JSON.stringify(res.token));
-        const ls = JSON.parse(localStorage.getItem("token"));
+        const token = JSON.parse(window.localStorage.getItem("token"));
+        const user = await verifyToken(token);
+        navigate("/panel");
       }
     },
   });
 
   const clickShowPassword = () => {
-    let tipo = document.getElementById('password');
-    if (tipo.type == 'password') {
-      tipo.type = 'text';
+    let tipo = document.getElementById("password");
+    if (tipo.type == "password") {
+      tipo.type = "text";
       setShowPassword(true);
     } else {
-      tipo.type = 'password';
+      tipo.type = "password";
       setShowPassword(false);
     }
   };
-
-
-
 
   return (
     <Container>
@@ -63,7 +61,7 @@ export const Login = () => {
       <Formik>
         {() => (
           <Form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-            <Form.Group className="mb-3" >
+            <Form.Group className="mb-3">
               <Form.Label>Nombre de usuario</Form.Label>
               <Form.Control
                 id="username"
@@ -75,7 +73,7 @@ export const Login = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.username && formik.errors.username && (
-                <div>{formik.errors?.username}</div>
+                <div style={{ color: "red" }}>{formik.errors?.username}</div>
               )}
               {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
               {/* <Form.Text className="text-muted">
@@ -83,37 +81,39 @@ export const Login = () => {
               </Form.Text> */}
             </Form.Group>
 
-            <Form.Group className="mb-3" >
+            <Form.Group className="mb-3">
               <Form.Label>Tu contraseña</Form.Label>
-              <span type='button' onClick={clickShowPassword}>
-              {showPassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
-            </span>
+              <span type="button" onClick={clickShowPassword}>
+                {showPassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+              </span>
               <Form.Control
                 id="password"
                 name="password"
-                // type='password'
+                type="password"
                 placeholder="Contraseña"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.password && formik.errors.password && (
-                <div className="error">{formik.errors?.password}</div>
+                <div style={{ color: "red" }} className="error">
+                  {formik.errors?.password}
+                </div>
               )}
               {/* <Form.Text className="text-muted">
                 Elije tu contraseña de usuario
               </Form.Text> */}
             </Form.Group>
-          
+            <Container className="d-flex justify-content-center gap-2">
+              <Button variant="primary" type="submit">
+                Ingresar
+              </Button>
+
+              <SignupLoginGoogle />
+            </Container>
           </Form>
         )}
       </Formik>
-      <Container >
-        <Button variant="primary" type="submit">
-          Ingresar
-        </Button>
-        <SignupLoginGoogle />
-      </Container>
     </Container>
   );
 };

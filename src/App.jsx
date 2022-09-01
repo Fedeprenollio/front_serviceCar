@@ -10,14 +10,13 @@ import { Panel } from './components/Panel';
 import { Services } from './components/Services';
 import { Home } from './components/Home';
 import { Signup } from './components/Signup';
-import  'bootstrap/dist/css/bootstrap.min.css'
 import { AdminService } from './components/AdminService';
 
 function App() {
 
 
   return (
-    <GoogleOAuthProvider clientId="1002992352679-im73irjpi9c8cgrs6v6tcjli39poi8mh.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId= {import.meta.env.VITE_APP_GOOGLE_CLIENTE_ID }>
     <GlobalProvider>
 
       <Routes>
