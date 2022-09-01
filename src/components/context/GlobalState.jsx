@@ -30,7 +30,7 @@ export const GlobalProvider = ({ children }) => {
   //----SIGNUP----
   const postSingup = async (user) => {
     try {
-      const res = await axios.post(`http://localhost:3001/singup`, user);
+      const res = await axios.post(`/singup`, user);
       const data = res.data;
       dispatch({
         type: SINGUP,
@@ -46,7 +46,7 @@ export const GlobalProvider = ({ children }) => {
 
   const postLogin = async (user) => {
     try {
-      const res = await axios.post(`http://localhost:3001/singin`, user);
+      const res = await axios.post(`/singin`, user);
       const data = res.data;
       dispatch({
         type: LOGIN,
@@ -64,7 +64,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       let response = await axios.get(
-        "http://localhost:3001/token/verifyToken",
+        "/token/verifyToken",
         config
       );
       console.log(response.data);
@@ -88,7 +88,7 @@ export const GlobalProvider = ({ children }) => {
       headers: { token: token },
     };
     try {
-      const res = await axios.post(`http://localhost:3001/auto`, auto, config);
+      const res = await axios.post(`/auto`, auto, config);
       const data = res.data;
       dispatch({
         type: POST_AUTO,
@@ -105,7 +105,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.put(
-        `http://localhost:3001/auto?idAuto=${idAuto}`,
+        `/auto?idAuto=${idAuto}`,
         info,
         config
       );
@@ -125,7 +125,7 @@ export const GlobalProvider = ({ children }) => {
       headers: { token: token },
     };
     try {
-      const res = await axios.get(`http://localhost:3001/auto/user`, config);
+      const res = await axios.get(`/auto/user`, config);
       const data = res.data;
 
       dispatch({
@@ -144,7 +144,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/user/nextServiceDays?day=${days}`,
+        `/auto/user/nextServiceDays?day=${days}`,
         config
       );
       const data = res.data;
@@ -163,7 +163,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/user/nextServiceKm?km=${km}`,
+        `/auto/user/nextServiceKm?km=${km}`,
         config
       );
       const data = res.data;
@@ -182,7 +182,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/user/status?status=${status}`,
+        `/auto/user/status?status=${status}`,
         config
       );
       const data = res.data;
@@ -201,7 +201,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/user/category?category=${category}`,
+        `/auto/user/category?category=${category}`,
         config
       );
       const data = res.data;
@@ -221,7 +221,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.delete(
-        `http://localhost:3001/auto/${idAuto}`,
+        `/auto/${idAuto}`,
         config
       );
       const data = res.data;
@@ -240,7 +240,7 @@ export const GlobalProvider = ({ children }) => {
 
   const getServicesGenerales = async (token) => {
     try {
-      const res = await axios.get(`http://localhost:3001/general`);
+      const res = await axios.get(`/general`);
       const data = res.data;
 
       dispatch({
@@ -261,7 +261,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.post(
-        `http://localhost:3001/service`,
+        `/service`,
         info,
         config
       );
@@ -282,7 +282,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.put(
-        `http://localhost:3001/service/${idService}`,
+        `/service/${idService}`,
         info,
         config
       );
@@ -304,7 +304,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.put(
-        `http://localhost:3001/auto/addServiceToAuto/${idAuto}`,
+        `/auto/addServiceToAuto/${idAuto}`,
         idService,
         config
       );
@@ -325,7 +325,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.delete(
-        `http://localhost:3001/service/${idService}`,
+        `/service/${idService}`,
         config
       );
       const data = res.data;
@@ -346,7 +346,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/service/status?status=${status}`,
+        `/service/status?status=${status}`,
         config
       );
       const data = res.data;
@@ -368,7 +368,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/detail/${idAuto}`,
+        `/auto/detail/${idAuto}`,
         config
       );
       const data = res.data;
@@ -390,7 +390,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/detail/${idAuto}?status=${status}&category=${category}`,
+        `/auto/detail/${idAuto}?status=${status}&category=${category}`,
         config
       );
       const data = res.data;
@@ -410,7 +410,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/detailNextDays/${idAuto}?day=${days}`,
+        `/auto/detailNextDays/${idAuto}?day=${days}`,
         config
       );
       const data = res.data;
@@ -431,7 +431,7 @@ export const GlobalProvider = ({ children }) => {
     };
     try {
       const res = await axios.get(
-        `http://localhost:3001/auto/detailNextKm/${idAuto}?km=${km}`,
+        `/auto/detailNextKm/${idAuto}?km=${km}`,
         config
       );
       const data = res.data;
@@ -451,7 +451,7 @@ export const GlobalProvider = ({ children }) => {
       headers: { token: token },
     };
     try {
-      const res = await axios.get(`http://localhost:3001/service/user`, config);
+      const res = await axios.get(`/service/user`, config);
       const data = res.data;
 
       dispatch({
