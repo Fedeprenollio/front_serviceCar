@@ -410,7 +410,7 @@ export function AdminService() {
           </Accordion>
         );
       })}
-</Container>
+      </Container>
       {showEditService && (
         <ModalEditService
           show={showEditService}

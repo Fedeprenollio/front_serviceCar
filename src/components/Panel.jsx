@@ -14,7 +14,6 @@ export const Panel = () => {
   const { userId, verifyToken } = useContext(GlobalContext);
   // const [user, setUser] = useState(userId)
   const token = JSON.parse(localStorage.getItem("token"));
-console.log("user panel", userId)
   useEffect(() => {
     verifyToken(token);
   

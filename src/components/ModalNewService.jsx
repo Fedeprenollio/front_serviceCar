@@ -56,7 +56,6 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("values", values)
       const newService = await postNewService(
         {
           ...values,

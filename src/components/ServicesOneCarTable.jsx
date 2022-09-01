@@ -232,7 +232,7 @@ export const ServicesOneCarTable = ({ idAuto }) => {
           Agregar nuevo service
         </Button>
       </Container>
-
+      <Container>
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>{autoDetail.vehiculo} </Accordion.Header>
@@ -361,6 +361,7 @@ export const ServicesOneCarTable = ({ idAuto }) => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      </Container>
 
       {show && (
         <ModalNewService show={show} setShow={setShow} idAuto={idAuto} />

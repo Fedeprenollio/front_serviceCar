@@ -82,7 +82,6 @@ export const ModalRenovService = ({ show, setShow, idAuto,idServ }) => {
       await putService(oldService._id, {serviceStatus: true}, token)
       await getAutoDetail(idAuto, token);
       await getAutos( token);
-      console.log("renovando")
     },
   });
   formik.initialValues.currentKm = autoDetail.kilometraje;

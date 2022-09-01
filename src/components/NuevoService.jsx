@@ -90,8 +90,7 @@ export const NuevoService = ({ idAuto, idService }) => {
 
   const [startDate, setStartDate] = useState(new Date());
   const [startDateNext, setStartDateNext] = useState(new Date());
-  console.log("fecha", startDate);
-  console.log("siguiente service", startDateNext);
+
   return (
     <Container className="mt-4">
       <Container className="">

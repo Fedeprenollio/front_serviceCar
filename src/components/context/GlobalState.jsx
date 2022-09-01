@@ -67,7 +67,6 @@ export const GlobalProvider = ({ children }) => {
         "/token/verifyToken",
         config
       );
-      console.log(response.data);
       return dispatch({
         type: VERIFY_TOKEN,
         payload: response.data,
@@ -255,7 +254,6 @@ export const GlobalProvider = ({ children }) => {
 
   //-------------- SERVICE DE UN AUTO
   const postNewService = async (info, token) => {
-    console.log("info", info)
     const config = {
       headers: { token: token },
     };
@@ -425,7 +423,6 @@ export const GlobalProvider = ({ children }) => {
     }
   };
   const getAutoDetailKmNext = async (idAuto, km, token) => {
-    console.log(km);
     const config = {
       headers: { token: token },
     };
@@ -465,7 +462,6 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const clearDetail = () => {
-    console.log("DETAIL GLOBAL STATE")
     dispatch({
       type: CLEAR_DETAIL,
       

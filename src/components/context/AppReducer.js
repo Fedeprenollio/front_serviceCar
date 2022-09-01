@@ -50,7 +50,6 @@ export default function appReducer(state, action) {
       };
 
     case CLEAR_DETAIL:
-      console.log("DETAILLLLLL")
       return {
         ...state,
         autos: [],
