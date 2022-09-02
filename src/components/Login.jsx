@@ -34,7 +34,7 @@ export const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const res = await postLogin(values);
-      console.log("HOLITA", res)
+      console.log("Hola", res)
       if(res.auth === false){
         MySwal.fire({
           icon: 'error',
