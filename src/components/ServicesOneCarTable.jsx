@@ -168,7 +168,7 @@ export const ServicesOneCarTable = ({ idAuto }) => {
   };
 
   return (
-    <Container className=" d-grid gap-2 mt-1 mb-1 container-fluid ">
+    <Container>
       <Container className=" d-grid gap-1 mt-1 mb-1 border rounded-2 container-fluid">
         <Row>
           <Col>
@@ -260,7 +260,7 @@ export const ServicesOneCarTable = ({ idAuto }) => {
                 let days = difference / (1000 * 3600 * 24);
 
                 return (
-                  <tbody>
+                  <tbody key={i}>
                     <>
                       <tr>
                         <td>{serv.categoria}</td>
