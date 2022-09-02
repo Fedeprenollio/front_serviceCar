@@ -25,13 +25,13 @@ export const SignupLoginGoogle = () => {
     }
   };
   return (
-    <div>
+    
       <GoogleLogin
         // buttonText="Logeate con Google"
         onSuccess={handleLoginGoogle}
         onError={handleLoginGoogle}
         //
       />
-    </div>
+   
   );
 };

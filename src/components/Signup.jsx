@@ -170,9 +170,9 @@ export const Signup = () => {
               )}
               <Form.Text className="text-muted">Repite tu contraseña</Form.Text>
             </Form.Group>
-            <Container className="d-grid place-item-center gap-2">
+            <Container className="d-flex justify-content-center gap-2">
               <Button variant="primary" type="submit">
-                Crear
+                Crear nuevo usuario
               </Button>
               <SignupLoginGoogle />
             </Container>
