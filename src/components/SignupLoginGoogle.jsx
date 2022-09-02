@@ -13,7 +13,7 @@ export const SignupLoginGoogle = () => {
   //------singup google/login google
   const handleLoginGoogle = async (res) => {
     const user = await jwt_decode(res.credential);
-    const response = await axios.post("http://localhost:3001/singupGoogle", {
+    const response = await axios.post("/singupGoogle", {
       token: res,
     });
 
