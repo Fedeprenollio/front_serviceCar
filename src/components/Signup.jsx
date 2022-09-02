@@ -19,14 +19,17 @@ export const Signup = () => {
   const navigate = useNavigate();
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
-    username: yup.string().required("El nombre es requerido"),
+    username: yup
+      .string()
+      .required("El nombre de usuario es requerido")
+      .min(8, "El nombre debe tener al menos 8 caracteres"),
     password: yup
-      .string("Ingrese la descripción")
-      // .min(8, 'Password should be of minimum 8 characters length')
+      .string("Ingrese el password")
+      .min(8, "El password debe tener al menos 8 caracteres")
       .required("La contraseña es requerida"),
     repitPassword: yup
-      .string("Ingrese la descripción")
-      // .min(8, 'Password should be of minimum 8 characters length')
+      .string("Ingrese el password")
+      .min(8, "El password debe tener al menos 8 caracteres")
       .required("La confirmacion de contraseña es requerida"),
   });
 

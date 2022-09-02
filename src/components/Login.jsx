@@ -15,11 +15,11 @@ export const Login = () => {
 
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
-    username: yup.string().required("El nombre es requerido"),
+    username: yup.string().required("El nombre de usuario es requerido"),
     password: yup
       .string("Ingrese la descripción")
-      // .min(8, 'Password should be of minimum 8 characters length')
-      .required("La descripción es requerida"),
+      .min(8, 'El password debe tener al menos 8 caracteres')
+      .required("El password es requerido"),
   });
 
   const formik = useFormik({

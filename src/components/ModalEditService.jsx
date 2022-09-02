@@ -43,13 +43,13 @@ export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
     // fecha: yup.string().required("El nombre es requerido"),
-    lugar: yup.string().required("El nombre es requerido"),
+    lugar: yup.string().required("El lugar del service es requerido"),
     currentKm: yup
       .number("Ingrese la descripción")
-      .required("La descripción es requerida"),
-    servicio: yup.string().required("El nombre es requerido"),
+      .required("El kilometraje actual es requerido"),
+    servicio: yup.string().required("El nombre es del service es requerido"),
     // categoria: yup.string().required("El nombre es requerido"),
-    nextServiceKm: yup.number().required("El nombre es requerido"),
+    nextServiceKm: yup.number().required("Los kilometros del proximo service es requerido"),
     // nextServiceFecha: yup.string().required("El nombre es requerido"),
   });     
 
@@ -181,9 +181,9 @@ export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
                   />
 
                   {formik.touched.lugar && formik.errors.lugar && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.lugar}
-                    </Alert>
+                    </div>
                   )}
                   {/* <Form.Text className="text-muted">
                 Elije tu nombre de usuario
@@ -203,9 +203,9 @@ export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.currentKm && formik.errors.currentKm && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.currentKm}
-                    </Alert>
+                    </div>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
@@ -227,9 +227,9 @@ export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.servicio && formik.errors.servicio && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.servicio}
-                    </Alert>
+                    </div>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   <Form.Text className="text-muted">
@@ -251,9 +251,9 @@ export const ModalEditService = ({ show, setShow, idAuto,idServ }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.nextServiceKm && formik.errors.nextServiceKm && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.nextServiceKm}
-                    </Alert>
+                    </div>
                   )}
                 </Form.Group>
 

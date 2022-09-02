@@ -30,14 +30,14 @@ export const ModalNewService = ({ show, setShow, idAuto, idService }) => {
   const validationSchema = yup.object({
     //email: yup.string().email().required('Email is required'),//
     // fecha: yup.string().required("El nombre es requerido"),
-    lugar: yup.string().required("El nombre es requerido"),
+    lugar: yup.string(),
     description: yup.string(),
     currentKm: yup
       .number("Ingrese los kilometros actuales")
-      .required("La descripción es requerida"),
+      .required("Los kilometros actuales son requeridos"),
     servicio: yup.string().required("El nombre es requerido"),
     // categoria: yup.string().required("El nombre es requerido"),
-    nextServiceKm: yup.number().required("El nombre es requerido"),
+    nextServiceKm: yup.number().required("Los kilometros para el siguiente service son requeridos"),
     // nextServiceFecha: yup.string().required("El nombre es requerido"),
   });
 

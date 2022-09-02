@@ -98,9 +98,9 @@ formik.initialValues.kilometraje= autoDetail.kilometraje
                 onBlur={formik.handleBlur}
               />
               {formik.touched.kilometraje && formik.errors.kilometraje && (
-                <Alert key={"danger"} variant={"danger"}>
+                <div style={{color:"red"}}>
                   {formik.errors?.kilometraje}
-                </Alert>
+                </div>
               )}
               
               

@@ -16,11 +16,11 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
 
   const validationSchema = yup.object({
     vehiculo: yup.string().required("El nombre es requerido"),
-    notes: yup.string().required("El nombre es requerido"),
+    notes: yup.string(),
     model: yup
-      .string("Ingrese la descripción")
-      .required("La descripción es requerida"),
-    kilometraje: yup.number().required("El nombre es requerido"),
+      .string("Ingrese el modelo del vehículo")
+      .required("El modelo es requerido"),
+    kilometraje: yup.number().required("El kilometraje es requerido"),
   });
 
   const formik = useFormik({
@@ -83,9 +83,9 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
                   />
 
                   {formik.touched.vehiculo && formik.errors.vehiculo && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}} >
                       {formik.errors?.vehiculo}
-                    </Alert>
+                    </div>
                   )}
                 </Form.Group>
 
@@ -102,9 +102,9 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.model && formik.errors.model && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.model}
-                    </Alert>
+                    </div>
                   )}
                   {/* <ErrorMessage name='email' component={()=>(<div>{formik.errors.email}</div>)} /> */}
                   {/* <Form.Text className="text-muted">
@@ -125,9 +125,9 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.kilometraje && formik.errors.kilometraje && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.kilometraje}
-                    </Alert>
+                    </div>
                   )}
                 </Form.Group>
 
@@ -144,9 +144,9 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.notes && formik.errors.notes && (
-                    <Alert key={"danger"} variant={"danger"}>
+                    <div style={{color:"red"}}>
                       {formik.errors?.notes}
-                    </Alert>
+                    </div>
                   )}
                 </Form.Group>
 

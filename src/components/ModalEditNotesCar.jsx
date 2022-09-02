@@ -100,9 +100,9 @@ formik.initialValues.notes= autoDetail.notes
                 onBlur={formik.handleBlur}
               />
               {formik.touched.notes && formik.errors.notes && (
-                <Alert key={"danger"} variant={"danger"}>
+                <div style={{color:"red"}}>
                   {formik.errors?.notes}
-                </Alert>
+                </div>
               )}
               
               
