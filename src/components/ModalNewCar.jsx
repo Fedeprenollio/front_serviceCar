@@ -56,9 +56,9 @@ export const ModalNewCar = ({ idAuto, show, setShow }) => {
 
   return (
     <Container className="mt-4">
-      <Button variant="primary" onClick={handleShow}>
+      {/* <Button variant="primary" onClick={handleShow}>
         Launch demo modal
-      </Button>
+      </Button> */}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
