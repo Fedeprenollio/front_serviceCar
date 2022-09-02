@@ -49,7 +49,7 @@ function NavBar() {
   return (
     <Navbar className="my-3" bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Bienvenido a tu ServisCar</Navbar.Brand>
+        <Navbar.Brand href="#home">Bienvenido a tu ServiceCar</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
