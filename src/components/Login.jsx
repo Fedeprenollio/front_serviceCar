@@ -7,6 +7,10 @@ import { useFormik, Formik } from "formik";
 import * as yup from "yup";
 import { Button, Form, Container } from "react-bootstrap";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 export const Login = () => {
   const { postLogin, verifyToken, user } = useContext(GlobalContext);
@@ -30,12 +34,26 @@ export const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const res = await postLogin(values);
-      if (res !== undefined) {
+      console.log("HOLITA", res)
+      if(res.auth === false){
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error en login!',
+          
+        })
+        return
+      }
+
+
+      if (res.auth == true) {
+        console.log("HOLITA", res)
         window.localStorage.setItem("token", JSON.stringify(res.token));
         const token = JSON.parse(window.localStorage.getItem("token"));
         const user = await verifyToken(token);
         navigate("/panel");
       }
+    
     },
   });
 
