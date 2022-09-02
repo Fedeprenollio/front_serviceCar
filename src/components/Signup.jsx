@@ -78,6 +78,7 @@ export const Signup = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordRepit, setShowPasswordRepit] = useState(false);
 
   const clickShowPassword = () => {
     let tipo = document.getElementById("password");
@@ -93,10 +94,10 @@ export const Signup = () => {
     let tipo = document.getElementById("repitPassword");
     if (tipo.type == "password") {
       tipo.type = "text";
-      setShowPassword(true);
+      setShowPasswordRepit(true);
     } else {
       tipo.type = "password";
-      setShowPassword(false);
+      setShowPasswordRepit(false);
     }
   };
   return (
@@ -152,7 +153,7 @@ export const Signup = () => {
             <Form.Group className="mb-3">
               <Form.Label>Tu contraseña</Form.Label>
               <span type="button" onClick={clickShowPasswordRepit}>
-                {showPassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                {showPasswordRepit ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
               </span>
               <Form.Control
                 id="repitPassword"
